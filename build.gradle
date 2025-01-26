@@ -1,9 +1,16 @@
 plugins {
-    id 'java'
+    id 'java-library'
 }
 
 group = 'com.rodrigotroy'
 version = '1.0-SNAPSHOT'
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+        vendor = JvmVendorSpec.AMAZON
+    }
+}
 
 repositories {
     mavenCentral()
@@ -16,4 +23,23 @@ dependencies {
 
 test {
     useJUnitPlatform()
+}
+
+tasks.withType(JavaCompile).configureEach {
+
+    options.encoding = 'UTF-8'
+}
+
+tasks.jar {
+    // Set the base name for the artifact
+    archiveBaseName.set("java-commons")
+    archiveVersion.set(version)
+
+    // Optionally add manifest attributes
+    manifest {
+        attributes(
+                'Implementation-Title': project.name,
+                'Implementation-Version': project.version
+        )
+    }
 }
