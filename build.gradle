@@ -1,15 +1,39 @@
 plugins {
     id 'java-library'
+    id 'maven-publish'
     id 'com.github.ben-manes.versions' version '0.52.0'
 }
 
 group = 'com.rodrigotroy'
-version = '1.0-SNAPSHOT'
+version = '1.0'
 
 java {
     toolchain {
         languageVersion = JavaLanguageVersion.of(17)
         vendor = JvmVendorSpec.AMAZON
+    }
+
+    withJavadocJar()
+    withSourcesJar()
+}
+
+publishing {
+    publications {
+        myLibrary(MavenPublication) {
+            from components.java
+        }
+    }
+
+    repositories {
+
+    }
+}
+
+publishing {
+    publications {
+        myLibrary(MavenPublication) {
+            from components.java
+        }
     }
 }
 
@@ -27,8 +51,10 @@ test {
 }
 
 tasks.withType(JavaCompile).configureEach {
-
+    options.release.set(17)
+    options.deprecation = true
     options.encoding = 'UTF-8'
+    options.compilerArgs = ["-Xlint:unchecked", "-Xlint:deprecation", "-parameters"]
 }
 
 tasks.jar {
