@@ -29,14 +29,6 @@ publishing {
     }
 }
 
-publishing {
-    publications {
-        myLibrary(MavenPublication) {
-            from components.java
-        }
-    }
-}
-
 repositories {
     mavenCentral()
 }
