@@ -57,10 +57,10 @@ public class DataTableFactoryTest {
                                                                              domainObjectMapper);
 
         assertNotNull(dataTable);
-        assertEquals(dataTable.getHeaders().size(),
-                     1);
-        assertEquals(dataTable.getRows().size(),
-                     10);
+        assertEquals(1,
+                     dataTable.getHeaders().size());
+        assertEquals(10,
+                     dataTable.getRows().size());
     }
 
     @Test
