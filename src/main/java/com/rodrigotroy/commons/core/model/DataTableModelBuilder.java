@@ -129,7 +129,7 @@ public final class DataTableModelBuilder {
                 this.model.getHeaders().add(Arrays.asList(data));
             }
         } else {
-            throw new Exception("NO SE HAN DEFINIDO LAS COLUMNAS");
+            throw new Exception("Header is empty");
         }
 
         return model;

@@ -43,19 +43,35 @@ public final class FileHandler {
                             @NotNull File outFile) throws
                                                    IOException {
         if (!inFile.exists()) {
-            return;
+            throw new IOException("SOURCE FILE DOES NOT EXIST (" + inFile.getCanonicalPath() + ")");
+        }
+
+        if (!inFile.canRead()) {
+            throw new IOException("SOURCE FILE CANNOT BE READ (" + inFile.getCanonicalPath() + ")");
+        }
+
+        if (!outFile.getParentFile().exists()) {
+            throw new IOException("DESTINATION DIRECTORY DOES NOT EXIST (" + outFile.getCanonicalPath() + ")");
+        }
+
+        if (!outFile.getParentFile().canWrite()) {
+            throw new IOException("DESTINATION DIRECTORY CANNOT BE WRITTEN TO (" + outFile.getCanonicalPath() + ")");
+        }
+
+        if (!outFile.getParentFile().isDirectory()) {
+            throw new IOException("DESTINATION DIRECTORY IS NOT A DIRECTORY (" + outFile.getCanonicalPath() + ")");
         }
 
         if (inFile.getCanonicalPath().equals(outFile.getCanonicalPath())) {
-            throw new IOException("NO SE PUEDE COPIAR EL ARCHIVO SOBRE SI MISMO");
+            throw new IOException("CANNOT COPY A FILE OVER ITSELF");
         }
 
         if (inFile.isDirectory()) {
-            throw new IOException("NO SE PUEDE COPIAR UN DIRECTORIO (" + inFile.getCanonicalPath() + ")");
+            throw new IOException("CANNOT COPY A DIRECTORY (" + inFile.getCanonicalPath() + ")");
         }
 
         if (outFile.isDirectory()) {
-            throw new IOException("NO SE PUEDE COPIAR A UN DIRECTORIO (" + outFile.getCanonicalPath() + ")");
+            throw new IOException("CANNOT COPY TO A DIRECTORY (" + outFile.getCanonicalPath() + ")");
         }
 
         try (FileInputStream fis = new FileInputStream(inFile);
